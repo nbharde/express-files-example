@@ -46,8 +46,12 @@ app.post('/proxy/save/:id', function (req, res) {
 app.get('/proxy/fetch/:id', function (req, res) {
     const id = req.params.id;
 
-    const data = JSON.parse(fs.readFileSync(`${id}.json`));
-    res.status(200).json(data);
+    try { 
+        const data = JSON.parse(fs.readFileSync(`${id}.json`));
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(404).json({ message: error });
+    }
 });
 
 app.listen(5000, function () {
